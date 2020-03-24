@@ -192,4 +192,4 @@ The results of applying dependency parsing to the tagged and lemmatized texts, i
 
 `03a_ParserInput`
 
-Normally, the files in `03_POS_Lemma` are input to the parser. However, if a text contains very long sentences (default settings: more than 430 tokens), the long sentences are removed before parsing. If sentences are removed, the parser input file without the long sentences are stored in this directory.
+Normally, the files in `03_POS_Lemma` are input to the parser. However, if a text contains very long sentences (default settings: more than 430 tokens), the long sentences are removed before parsing. If sentences are removed, the parser input file without the long sentences is stored in this directory.
