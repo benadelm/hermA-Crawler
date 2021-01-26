@@ -2,7 +2,7 @@
 
 A web crawler with integrated linguistic processing for thematic crawling and web document collection developed in the research project [hermA](https://www.herma.uni-hamburg.de/en.html).
 
-Starting from given seed URLs, the crawler follows links in HTML and collects documents containing one or more given keyphrases.
+Starting from given URLs (‘seed URLs’), the crawler follows links in HTML and collects documents containing one or more given keyphrases.
 Supported document types are currently HTML (`text/html`), PDF (`application/pdf`, `application/x-pdf`) and plain text (`text/plain`).
 
 # System Requirements
@@ -59,9 +59,11 @@ After you have installed the required software and downloaded the external tools
 3. Create an output directory for the crawler and set it in the configuration file, as specified there.
 4. Set additional paths and other options in the configuration file, if needed.
 
+The seed URLs, keyphrases and blacklist files have to be UTF-8 plain text files with one entry per line, so the seed URLs file contains one URL per line (e.g. `https://de.wikipedia.org/`) and the blacklist file one blacklisted host per line (e.g. `google.com`). The keyphrases file contains one keyphrase per line, where the words of the phrase have to be already lemmatized and separated by ASCII whitespace (one or more of the characters U+0020 SPACE, U+0009 CHARACTER TABULATION, U+000B LINE TABULATION, U+000C FORM FEED; this includes normal spaces).
+
 You can now start the crawler.
 
-**Note:** The web crawler tries to connect with the MongoDB server at port 27017 of the same machine (`localhost:27017`), which is the default. At the moment, this cannot be changed in the configuration file.
+**Note:** The web crawler tries to connect with the MongoDB server at port 27017 of the same machine (`localhost:27017`), which is the default. At the moment, this cannot be changed in the configuration file, so you have to make sure that MongoDB is listening at this port or the crawler will not run.
 
 ## Stopping the Crawler
 
@@ -86,7 +88,7 @@ In detail, the crawler generates the following files:
 Contains metadata about the saved web pages. Every line in this file corresponds to a saved web page and consists of fields separated by TAB characters. The fields are:
 1. full URL of the web page
 2. download date and time in ISO 8601 format
-3. Content-Type header (MIME type of the data); for HTML (and plain text) this generally contains the encoding, too
+3. Content-Type header ([MIME type](https://en.wikipedia.org/wiki/Media_type) of the data); for HTML (and plain text) this generally contains the encoding, too
 4. file name of the file to which the web page has been saved, within the `original` folder
 5. title of the page
 	 * HTML: contents of the `<title>` element; if the HTML does not contain any `<title>` element, the file name from the URL (without extension) is used
@@ -154,7 +156,7 @@ Contain all URLs processed by the crawler, that is, for which the crawler has de
 
 files in `meta/prtne`
 
-The abbreviation ‘prtne’ is supposed to mean ‘potentially relevant, text not extractable’ and these files contain the URLs of web page whose MIME type the crawler cannot (yet) deal with although the contents might be relevant (such as `application/msword`). The file `prtne.txt` is the most recent one. Approximately every 10000 lines, a new `prtne.txt` is started and the old one is renamed by appending the current date (for example, `prtne.txt-20200102030405`). Every line in this file corresponds to one web page and consists of fields separated by TAB characters. The fields are:
+The abbreviation ‘prtne’ stands for ‘potentially relevant, text not extractable’ and these files contain the URLs of web page whose MIME type the crawler cannot (yet) deal with although the contents might be relevant (such as `application/msword`). The file `prtne.txt` is the most recent one. Approximately every 10000 lines, a new `prtne.txt` is started and the old one is renamed by appending the current date (for example, `prtne.txt-20200102030405`). Every line in this file corresponds to one web page and consists of fields separated by TAB characters. The fields are:
 1. URL
 2. `Content-Type` header
 
@@ -162,7 +164,7 @@ The abbreviation ‘prtne’ is supposed to mean ‘potentially relevant, text n
 
 files in `meta/unfollowedschemata`
 
-Contain URI schemata which the crawler has encountered but cannot follow (such as `mailto`). The file `unfollowedschemata.txt` is the most recent one. Approximately every 10000 lines, a new `unfollowedschemata.txt` is started and the old one is renamed by appending the current date and time (for example, `unfollowedschemata.txt-20200102030405`). Every line in this file is a URI schema (without the colon).
+Contain [URI schemes](https://en.wikipedia.org/wiki/Uniform_Resource_Identifier#Syntax) which the crawler has encountered but cannot follow (such as `mailto`). The file `unfollowedschemata.txt` is the most recent one. Approximately every 10000 lines, a new `unfollowedschemata.txt` is started and the old one is renamed by appending the current date and time (for example, `unfollowedschemata.txt-20200102030405`). Every line in this file is a URI schema (without the colon).
 
 ---
 
